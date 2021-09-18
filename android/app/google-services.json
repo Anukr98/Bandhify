@@ -1,0 +1,154 @@
+{
+  "project_info": {
+    "project_number": "528731919394",
+    "project_id": "bandhify-34127",
+    "storage_bucket": "bandhify-34127.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528731919394:android:81e6fe751fe021b473e67b",
+        "android_client_info": {
+          "package_name": "com.bandhifycustomer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1THk8s3QPr3A_Y4u9689pMP50RvRKzcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "528731919394-c06hqv7qjoj61jm8qddcm1sruhnupccb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bandhifyvendor"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528731919394:android:99a3b784e5bb613673e67b",
+        "android_client_info": {
+          "package_name": "com.bandhifydelivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1THk8s3QPr3A_Y4u9689pMP50RvRKzcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "528731919394-c06hqv7qjoj61jm8qddcm1sruhnupccb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bandhifyvendor"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528731919394:android:9e2e421b84b1695573e67b",
+        "android_client_info": {
+          "package_name": "com.bandhifyvendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1THk8s3QPr3A_Y4u9689pMP50RvRKzcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "528731919394-c06hqv7qjoj61jm8qddcm1sruhnupccb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bandhifyvendor"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528731919394:android:59f347b7ac8eb46b73e67b",
+        "android_client_info": {
+          "package_name": "com.dairyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1THk8s3QPr3A_Y4u9689pMP50RvRKzcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528731919394-88qdujvl85t51uunj27d7219v0dc3uav.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "528731919394-c06hqv7qjoj61jm8qddcm1sruhnupccb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bandhifyvendor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
