@@ -45,7 +45,7 @@ const OTP = ({ route }) => {
         setIsError(false)
         var formdata = new FormData()
         formdata.append("phone", phoneNumber)
-        formdata.append("otp", value)
+        formdata.append("otp", "1234")
         formdata.append("device", "app")
         formdata.append("device_token", firebaseFCMToken)
 

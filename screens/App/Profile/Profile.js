@@ -328,7 +328,7 @@ const Profile = () => {
                         onPress = {() => {}}
                     >
                         <View style={[styles.innerButton, { justifyContent: "center" }]}>
-                            <Text style={[styles.buttonText, { fontSize: 13, color: colors.GRAY_TEXT_NEW }]}>App version 1.0.2 [3]</Text>
+                            <Text style={[styles.buttonText, { fontSize: 13, color: colors.GRAY_TEXT_NEW }]}>App version 1.0.0 [1]</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
