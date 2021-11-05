@@ -95,13 +95,13 @@ export default class SearchLocation extends React.Component {
     getLocationFromMarker = e => {
         const { latitude, longitude } = e.nativeEvent.coordinate
         Geocoder.init(keys.GOOGLE_MAPS_API)
-        Geocoder.from(latitude, longitude).then(res => {
+        Geocoder.from(latitude, longitude).then(async res => {
             this.setState({
                 markerCoordinates: {
                     latitude,
                     longitude,
-                    location: res.results[0].formatted_address
                 },
+                location: res.results[0].formatted_address,
             })
         }).catch(err => {})
     }

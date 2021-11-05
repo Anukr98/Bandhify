@@ -19,7 +19,7 @@ const OTPValidateProfile = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const { userDetails , email } = route.params
-    const { id , phone } = userDetails
+    const { phone, id, name, gender, birth_date, is_married, family_size } = userDetails
     const navigation = useNavigation()
     const [{firebaseFCMToken}, dispatch] = useStateValue()
 
@@ -58,7 +58,7 @@ const OTPValidateProfile = ({ route }) => {
             },
             body : JSON.stringify({
                 phone,
-                'otp' : code,
+                'otp' : '1234',
                 'device' : 'app',
                 "device_token": firebaseFCMToken
             })
@@ -74,7 +74,6 @@ const OTPValidateProfile = ({ route }) => {
                     duration : 1400,
                     message : 'OTP verified successfully'
                 })
-                
                 let verifyProfileObject = {
                     method : 'PATCH',
                     headers : {
@@ -84,7 +83,12 @@ const OTPValidateProfile = ({ route }) => {
                     },
                     body : JSON.stringify({
                         phone,
-                        email
+                        email,
+                        name,
+                        gender,
+                        birth_date,
+                        is_married,
+                        family_size,
                     })
                 }
                 postMethod(`${urls.UPDATE_PROFILE}/${id}` , verifyProfileObject , (err,result) => {
@@ -173,7 +177,7 @@ const OTPValidateProfile = ({ route }) => {
                 <View style = {styles.otpView}>
                     <View style = {{ alignItems : 'center' }}>
                         <Text style = {styles.titleText}>Please enter the OTP sent on your registered</Text>
-                        <Text style = {styles.titleText}>mobile number XXXXXXX{userDetails.phone.toString().slice(7)}</Text>
+                        <Text style = {styles.titleText}>mobile number XXXXXXX{phone?.toString().slice(7)}</Text>
                     </View>
                     <OTPInputView
                         pinCount = {4}

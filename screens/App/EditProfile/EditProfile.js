@@ -48,7 +48,6 @@ const EditProfile = ({ route }) => {
     const genderChangeRef = useRef(null)
     const maritalStatusRef = useRef(null)
     // const updatePhoneRef = useRef(null)
-
     const [userImage, setUserImage] = useState(undefined)
     const [name, setName] = useState(userDetails.name)
     const [email, setEmail] = useState(userDetails.email)
@@ -58,7 +57,7 @@ const EditProfile = ({ route }) => {
     const [DOB, setDOB] = useState((birth_date))
     const [userGender, setUserGender] = useState(gender)
     const [commonSheetIdentifier, setCommonSheetIdentifier] = useState('')
-    const [maritalStatus, setMaritalStatus] = useState(is_married)
+    const [maritalStatus, setMaritalStatus] = useState(is_married === false ? 0 : 1)
     const [familySize, setFamilySize] = useState(family_size)
     const [isConfirmationModalAvailable, setIsConfirmationModalAvailable] = useState(false)
 
@@ -79,17 +78,23 @@ const EditProfile = ({ route }) => {
             width: 70,
             height: 70,
             cropping: true,
-            includeBase64: true
+            includeBase64: true,
+            cropperCircleOverlay: true
         })
         .then(image => {
             setUserImage({ uri: image.path })
         }).catch(err => console.log(err))
     }
 
-    const validateEmail = () => {
-        console.log(userDetails.phone)
+    const validateEmail = async () => {
+        let details = {...userDetails}
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (regex.test(email)) {
+            details.name = name
+            details.birth_date = DOB
+            details.gender = userGender
+            details.is_married = maritalStatus === 0 ? false : true
+            details.family_size = familySize ? familySize : null
             let object = {
                 method : 'POST',
                 headers : {
@@ -112,7 +117,8 @@ const EditProfile = ({ route }) => {
                         message : result.message
                     })
                     updateEmailRef.current.close()
-                    navigation.navigate('OTPValidateProfile' , { userDetails , email })
+                    // console.log(details)
+                    navigation.navigate('OTPValidateProfile' , { userDetails: details, email })
                 }
                 else {
                     showMessage({
@@ -137,83 +143,132 @@ const EditProfile = ({ route }) => {
         }
     }
 
-    // const validatePhone = () => {
-    //     if(phone.length == 10) {
-    //         updatePhoneRef.current.close()
-    //         navigation.navigate('OTPValidateProfile' , { userDetails , updateField : 'phone' , phone })
-    //     }
-    //     else {
-    //         setIsPhoneValid(false)
-    //         showMessage({
-    //             icon: 'warning',
-    //             floating: true,
-    //             duration: 1400,
-    //             type : 'danger',
-    //             message: 'Please enter a valid phone number'
-    //         })
-    //     }
-    // }
-
-    const saveChanges = async () => {
-        let birth_date = DOB ? `${moment(DOB).format('YYYY')}-${moment(DOB).format('MM')}-${moment(DOB).format('DD')}` : moment().format("YYYY-MM-DD")
-        let token = await AsyncStorage.getItem('token')
-        setIsLoading(true)
-        if(userImage !== undefined) {
-            //CALL IMAGE UPLOAD API WITH THE IMAGE UPLOADED BY USER
-            let image = new FormData()
-            image.append('image', {
-                type : 'image/jpeg',
-                uri : userImage.uri,
-                name : 'test'
-            })
-            let object = {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`
-                },
-                body: image
-            }
-            postMethod(urls.ADD_IMAGE, object, (err, result) => {
-                if (err)
-                    console.log(err)
-                else if (result.status && result.code === 201) {
-                    let updateProfileObject = {
-                        method : 'PATCH',
-                        headers : {
-                            Accept : 'application/json',
-                            'Content-Type' : 'application/json',
-                            Authorization : `Bearer ${token}`
-                        },
-                        body : JSON.stringify({
-                            'profile_image' : result.image_url,
-                            name,
-                            email,
-                            'gender' : userGender,
-                            'is_married' : maritalStatus,
-                            birth_date,
-                            'family_size' : familySize
+    const saveChanges = async showMessages => {
+        return new Promise(async (resolve, reject) => {
+            let birth_date = DOB ? `${moment(DOB).format('YYYY')}-${moment(DOB).format('MM')}-${moment(DOB).format('DD')}` : moment().format("YYYY-MM-DD")
+            let token = await AsyncStorage.getItem('token')
+            showMessages && setIsLoading(true)
+            if(userImage !== undefined) {
+                //CALL IMAGE UPLOAD API WITH THE IMAGE UPLOADED BY USER
+                let image = new FormData()
+                image.append('image', {
+                    type : 'image/jpeg',
+                    uri : userImage.uri,
+                    name : 'test'
+                })
+                let object = {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: image
+                }
+                postMethod(urls.ADD_IMAGE, object, (err, result) => {
+                    if (err)
+                        console.log(err)
+                    else if (result.status && result.code === 201) {
+                        let updateProfileObject = {
+                            method : 'PATCH',
+                            headers : {
+                                Accept : 'application/json',
+                                'Content-Type' : 'application/json',
+                                Authorization : `Bearer ${token}`
+                            },
+                            body : JSON.stringify({
+                                'profile_image' : result.image_url,
+                                name,
+                                email,
+                                'gender' : userGender,
+                                'is_married' : maritalStatus,
+                                birth_date,
+                                'family_size' : familySize
+                            })
+                        }
+                        postMethod(`${urls.UPDATE_PROFILE}/${id}` , updateProfileObject , (error,res) => {
+                            setTimeout(() => {
+                                setIsLoading(false)
+                            },600)
+                            if(error)
+                                console.log(error)
+                            else if(res.status && res.code === 204) {
+                                if(showMessages)
+                                    showMessage({
+                                        icon : 'success',
+                                        type : 'success',
+                                        floating : true,
+                                        duration : 1400,
+                                        message : res.message
+                                    })
+                                setDOB(birth_date)
+                                resolve(res?.user)
+                            }
+                            else {
+                                setUserImage(undefined)
+                                if(showMessages)
+                                    showMessage({
+                                        icon : 'danger',
+                                        floating : true,
+                                        duration : 1400,
+                                        message : 'Profile could not be updated. Try again later!',
+                                        style : { backgroundColor : colors.BLACK }
+                                    })
+                                reject(null)
+                            }
                         })
                     }
-                    postMethod(`${urls.UPDATE_PROFILE}/${id}` , updateProfileObject , (error,res) => {
-                        setTimeout(() => {
-                            setIsLoading(false)
-                        },600)
-                        if(error)
-                            console.log(error)
-                        else if(res.status && res.code === 204) {
+                    else {
+                        if(showMessages)
+                            showMessage({
+                                icon: 'danger',
+                                style: { backgroundColor: colors.BLACK },
+                                floating: true,
+                                duration: 1400,
+                                message: 'Image could not be saved'
+                            })
+                        reject(null)
+                    }
+                })
+            }
+            else {
+                let object = {
+                    method : 'PATCH',
+                    headers : {
+                        Accept : 'application/json',
+                        'Content-Type' : 'application/json',
+                        Authorization : `Bearer ${token}`
+                    },
+                    body : JSON.stringify({
+                        name,
+                        email,
+                        'gender' : userGender,
+                        'is_married' : maritalStatus,
+                        birth_date,
+                        'family_size' : familySize
+                    })
+                }
+                postMethod(`${urls.UPDATE_PROFILE}/${id}` , object , (err,result) => {
+                    setTimeout(() => {
+                        setIsLoading(false)
+                    },600)
+                    if(err)
+                        console.log(err)
+                    else if(result.status && result.code === 204) {
+                        if(showMessages)
                             showMessage({
                                 icon : 'success',
                                 type : 'success',
                                 floating : true,
                                 duration : 1400,
-                                message : res.message
+                                message : result.message
                             })
-                            setDOB(birth_date)
-                        }
-                        else {
-                            setUserImage(undefined)
+                        setDOB(birth_date)
+                        resolve(result?.user)
+                    }
+                    else {
+                        setName(userDetails.name)
+                        if(showMessages)
                             showMessage({
                                 icon : 'danger',
                                 floating : true,
@@ -221,66 +276,11 @@ const EditProfile = ({ route }) => {
                                 message : 'Profile could not be updated. Try again later!',
                                 style : { backgroundColor : colors.BLACK }
                             })
-                        }
-                    })
-                }
-                else {
-                    showMessage({
-                        icon: 'danger',
-                        style: { backgroundColor: colors.BLACK },
-                        floating: true,
-                        duration: 1400,
-                        message: 'Image could not be saved'
-                    })
-                }
-            })
-        }
-        else {
-            let object = {
-                method : 'PATCH',
-                headers : {
-                    Accept : 'application/json',
-                    'Content-Type' : 'application/json',
-                    Authorization : `Bearer ${token}`
-                },
-                body : JSON.stringify({
-                    name,
-                    email,
-                    'gender' : userGender,
-                    'is_married' : maritalStatus,
-                    birth_date,
-                    'family_size' : familySize
+                        reject(null)
+                    }
                 })
             }
-            console.log('birth date',birth_date)
-            postMethod(`${urls.UPDATE_PROFILE}/${id}` , object , (err,result) => {
-                setTimeout(() => {
-                    setIsLoading(false)
-                },600)
-                if(err)
-                    console.log(err)
-                else if(result.status && result.code === 204) {
-                    showMessage({
-                        icon : 'success',
-                        type : 'success',
-                        floating : true,
-                        duration : 1400,
-                        message : result.message
-                    })
-                    setDOB(birth_date)
-                }
-                else {
-                    setName(userDetails.name)
-                    showMessage({
-                        icon : 'danger',
-                        floating : true,
-                        duration : 1400,
-                        message : 'Profile could not be updated. Try again later!',
-                        style : { backgroundColor : colors.BLACK }
-                    })
-                }
-            })
-        }
+        })
     }
 
     const changeDob = date => setDOB(moment(date).format('YYYY-MM-DD'))
@@ -387,7 +387,7 @@ const EditProfile = ({ route }) => {
                             {
                                 userDetails?.profile_image
                                             ?
-                                    <Pressable onPress = {() => imageChangeRef.current.open()}><Image source={{ uri: userDetails.profile_image }} style = {{ width : 100 , height : 100 , borderRadius : 999 }} /></Pressable>
+                                    <Pressable onPress = {() => imageChangeRef.current.open()}><Image source={{ uri: !userImage ? userDetails.profile_image : userImage?.uri }} style = {{ width : 100 , height : 100 , borderRadius : 999 }} /></Pressable>
                                             :
                                     userImage
                                         ?
@@ -459,6 +459,7 @@ const EditProfile = ({ route }) => {
                                     style = {styles.input}
                                     editable = {false}
                                     placeholder = {userDetails.email ? userDetails.email : "Your email"}
+                                    placeholderTextColor={colors.GRAY_TEXT_NEW}
                                 />
                                 <View style={styles.inputEditText}><Pressable onPress={() => updateEmailRef.current.open()} hitSlop={25}><Text style={styles.editInputText}>{userDetails.email ? 'Edit' : email ? 'Edit' : 'Add'}</Text></Pressable></View>
                             </View>
@@ -770,7 +771,7 @@ const EditProfile = ({ route }) => {
             </ScrollView>
 
             <View style={styles.confirmContainer}>
-                <Pressable style={styles.confirmButton} onPress={saveChanges}><Text style={styles.submitButtonText}>Confirm Changes</Text></Pressable>
+                <Pressable style={styles.confirmButton} onPress={() => saveChanges(true)}><Text style={styles.submitButtonText}>Confirm Changes</Text></Pressable>
             </View>
         </View>
     )
