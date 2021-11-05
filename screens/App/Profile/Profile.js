@@ -17,6 +17,7 @@ import { links } from '../../../constants/externalLinks'
 import Modal from 'react-native-modal'
 import { width } from '../../../constants/dimensions'
 import { InAppBrowser } from 'react-native-inappbrowser-reborn'
+import DeviceInfo from 'react-native-device-info'
 
 const Profile = () => {
 
@@ -28,6 +29,7 @@ const Profile = () => {
 
     useEffect(() => {
         const unsubsribe = navigation.addListener('focus' , async () => {
+            console.log(await DeviceInfo.getBuildNumber())
             setIsLoading(true)
             let token = await AsyncStorage.getItem('token')
             let object = {
