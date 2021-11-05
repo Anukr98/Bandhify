@@ -33,7 +33,6 @@ const Profile = () => {
 
     useEffect(() => {
         const unsubsribe = navigation.addListener('focus' , async () => {
-            console.log(await DeviceInfo.getBuildNumber())
             setBuildDetails({
                 versionNumber: await DeviceInfo.getVersion(),
                 buildNumber: await DeviceInfo.getBuildNumber()
