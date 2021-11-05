@@ -24,12 +24,20 @@ const Profile = () => {
     const [userDetails, setUserDetails] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [isModalVisible, setisModalVisible] = useState(false)
+    const [buildDetails, setBuildDetails] = useState({
+        versionNumber: '1',
+        buildNumber: 1
+    })
 
     const navigation = useNavigation()
 
     useEffect(() => {
         const unsubsribe = navigation.addListener('focus' , async () => {
             console.log(await DeviceInfo.getBuildNumber())
+            setBuildDetails({
+                versionNumber: await DeviceInfo.getVersion(),
+                buildNumber: await DeviceInfo.getBuildNumber()
+            })
             setIsLoading(true)
             let token = await AsyncStorage.getItem('token')
             let object = {
@@ -330,7 +338,7 @@ const Profile = () => {
                         onPress = {() => {}}
                     >
                         <View style={[styles.innerButton, { justifyContent: "center" }]}>
-                            <Text style={[styles.buttonText, { fontSize: 13, color: colors.GRAY_TEXT_NEW }]}>App version 1.0.0 [1]</Text>
+                            <Text style={[styles.buttonText, { fontSize: 13, color: colors.GRAY_TEXT_NEW }]}>{`App version ${buildDetails.versionNumber} [${buildDetails.buildNumber}]`}</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
