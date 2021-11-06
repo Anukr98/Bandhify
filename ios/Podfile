@@ -4,13 +4,22 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '11.0'
 
 target 'bandhifycustomer' do
+  rn_maps_path = '../node_modules/react-native-maps'
   config = use_native_modules!
+  permissions_path = '../node_modules/react-native-permissions/ios'
 
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy"
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
 
   pod 'react-native-geolocation-service', :path => '../node_modules/react-native-geolocation-service'
 
@@ -20,7 +29,7 @@ target 'bandhifycustomer' do
 
   pod 'RNCClipboard', :path => '../node_modules/@react-native-community/clipboard'
 
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+  # pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   target 'bandhifycustomerTests' do
     inherit! :complete
@@ -35,5 +44,15 @@ target 'bandhifycustomer' do
 
   post_install do |installer|
     react_native_post_install(installer)
+    flipper_post_install(installer)
+
+    installer.pods_project.targets.each do |target|
+      if target.name == "RCT-Folly"
+        target.build_configurations.each do |config|
+          config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'FOLLY_HAVE_CLOCK_GETTIME=1']
+        end
+      end
+    end
+
   end
 end
