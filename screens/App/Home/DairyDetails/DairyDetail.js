@@ -807,9 +807,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
     elevation: 8,
     shadowOpacity: 0.25,
-    shadowRadius: 8,
+    shadowRadius: 4,
     shadowOffset: {
-      height: 2,
+      height: 1,
       width: 2,
     },
   },

@@ -870,9 +870,9 @@ export default class Cart extends React.Component {
     else
       return (
         <View style={styles.container}>
-          <View>
+          <View style={{paddingLeft: '4%', paddingTop: '2%'}}>
             <Pressable onPress={this.handleBackButtonClick}>
-              <Icon name="arrow-back" />
+              <Icon name="return-up-back" active />
             </Pressable>
           </View>
           <Modal

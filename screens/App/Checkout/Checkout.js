@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import styles from './styles';
-import {RadioButton, TouchableRipple} from 'react-native-paper';
+import {TouchableRipple} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../../constants/colors';
 import ColorsText from '../../../constants/ColorsText';
@@ -26,6 +26,7 @@ import GIFLoading from '../../Components/GIFLoading/GIFLoading';
 import {strings} from '../../../constants/strings';
 import Modal from 'react-native-modal';
 import Application from '../../../Utils/db/Application';
+import RadioButton from '../../Components/RadioButton';
 
 const Checkout = props => {
   const {focus} = props.route.params;
@@ -96,7 +97,6 @@ const Checkout = props => {
   };
 
   const proceed = async address => {
-    console.log('pressed');
     const res = await Application.executeQuery(
       `SELECT delivery_range, latitude, longitude FROM CART`,
     );
@@ -110,17 +110,16 @@ const Checkout = props => {
       longitude: address.longitude,
     };
     const d = distanceBetweenCoordinates(shopAddress, selectedAddress);
-    console.log(d);
-    if (Math.round(d).toFixed(2) > delivery_range) {
-      showMessage({
-        icon: 'info',
-        style: {backgroundColor: colors.BLACK},
-        message: strings.DELIVERY_LOCATION_OUT_OF_RANGE,
-        floating: true,
-        duration: 4000,
-      });
-      return;
-    }
+    // if (Math.round(d).toFixed(2) > delivery_range) {
+    //   showMessage({
+    //     icon: 'info',
+    //     style: {backgroundColor: colors.BLACK},
+    //     message: strings.DELIVERY_LOCATION_OUT_OF_RANGE,
+    //     floating: true,
+    //     duration: 4000,
+    //   });
+    //   return;
+    // }
     props.navigation.replace('SlotSelection', {item: address});
   };
 
@@ -147,11 +146,8 @@ const Checkout = props => {
         <View style={styles.listItemContainer}>
           <View style={styles.radioButtonArea}>
             <RadioButton
-              status={
-                address_line_1 === isFocused.address1 ? 'checked' : 'unchecked'
-              }
+              checked={address_line_1 === isFocused.address1}
               onPress={changeAddress}
-              color={colors.MANGO_COLOR}
             />
           </View>
 
@@ -190,7 +186,7 @@ const Checkout = props => {
                       : 'none',
                 },
               ]}>
-              <TouchableRipple
+              <TouchableWithoutFeedback
                 style={styles.deliverButton}
                 onPress={() => proceed(item)}>
                 <LinearGradient
@@ -203,9 +199,9 @@ const Checkout = props => {
                     Deliver to this address
                   </Text>
                 </LinearGradient>
-              </TouchableRipple>
+              </TouchableWithoutFeedback>
               <View style={{marginTop: '5%', marginBottom: '5%'}}></View>
-              <TouchableRipple
+              <TouchableWithoutFeedback
                 style={styles.deliverButton}
                 onPress={() =>
                   props.navigation.replace('VerifyLocation', {
@@ -218,7 +214,7 @@ const Checkout = props => {
                   style={styles.deliverButton}>
                   <Text>Edit Address</Text>
                 </LinearGradient>
-              </TouchableRipple>
+              </TouchableWithoutFeedback>
             </View>
           </View>
         </View>

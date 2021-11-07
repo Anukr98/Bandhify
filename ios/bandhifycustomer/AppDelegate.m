@@ -1,5 +1,7 @@
 #import <Firebase.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import <React/RCTLinkingManager.h>
+
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>
@@ -55,6 +57,18 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  
+  NSString *urlString = url.absoluteString;
+  NSDictionary *userInfo =
+  [NSDictionary dictionaryWithObject:urlString forKey:@"appInvokeNotificationKey"];
+  [[NSNotificationCenter defaultCenter] postNotificationName:
+   @"appInvokeNotification" object:nil userInfo:userInfo];
+  return [RCTLinkingManager application:app openURL:url options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
