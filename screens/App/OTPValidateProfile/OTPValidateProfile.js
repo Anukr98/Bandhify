@@ -58,7 +58,7 @@ const OTPValidateProfile = ({ route }) => {
             },
             body : JSON.stringify({
                 phone,
-                'otp' : '1234',
+                'otp' : code,
                 'device' : 'app',
                 "device_token": firebaseFCMToken
             })
