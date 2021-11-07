@@ -1,7 +1,15 @@
-const Config = {
-    // BASE_URL : 'http://13.127.181.126/bandify/public/'
-    BASE_URL : 'https://api.bandhify.com/'
-    // BASE_URL : 'https://testapi.bandhify.com/'
-}
+const urls = {
+  PROD: 'https://api.bandhify.com/',
+  STAGING: 'https://testapi.bandhify.com/',
+};
 
-export default Config
+export const ENVS = {
+  PROD: 'PROD',
+  STAGING: 'STAGING',
+};
+
+export const AppConfig = ENVS.PROD;
+
+const BASE_URL = AppConfig === ENVS.PROD ? urls.PROD : urls.STAGING;
+
+export default BASE_URL;

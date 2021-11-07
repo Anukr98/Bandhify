@@ -35,9 +35,7 @@ const Registration = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const geoSuccess = position => {
-    console.log('geo success was rtrigered');
-  };
+  const geoSuccess = position => {};
 
   const geoFailure = err => console.log(err, 'here');
 
