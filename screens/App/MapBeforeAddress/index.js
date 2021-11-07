@@ -234,6 +234,12 @@ export default class VerifyLocation extends React.Component {
                 borderWidth: 1,
                 borderColor: '#b2b0b330',
                 elevation: 8,
+                shadowOffset: {
+                  height: 3,
+                  width: 2,
+                },
+                shadowOpacity: 0.15,
+                shadowRadius: 3,
               },
             }}
           />
@@ -248,6 +254,12 @@ export default class VerifyLocation extends React.Component {
             borderRadius: 7,
             width: 40,
             height: 40,
+            shadowOffset: {
+              height: 2,
+              width: 2,
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
           }}>
           <Pressable
             style={{
