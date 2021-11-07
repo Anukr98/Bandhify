@@ -10,6 +10,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import colors from '../../../constants/colors';
 import styles from './styles';
@@ -304,47 +305,45 @@ const EditProfile = ({route}) => {
 
   const changeDob = date => setDOB(moment(date).format('YYYY-MM-DD'));
 
-  const MaritalStatus = ({item}) => (
-    <View>
+  const MaritalStatus = ({item, index}) => (
+    <View style={{marginBottom: index === MARITAL_STATUS.length - 1 ? 0 : 15}}>
       <Pressable onPress={() => setMaritalStatus(item.value)}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <RadioButton
-            status={maritalStatus === item.value ? 'checked' : 'unchecked'}
             onPress={() => setMaritalStatus(item.value)}
-            color={colors.MANGO_COLOR}
+            checked={maritalStatus === item.value}
           />
-          <Text>{item.label}</Text>
+          <Text style={styles.radioLabel}>{item.label}</Text>
         </View>
       </Pressable>
     </View>
   );
 
-  const FamilySize = ({item}) => (
-    <View>
+  const FamilySize = ({item, index}) => (
+    <View style={{marginBottom: index === FAMILY_SIZE.length - 1 ? 0 : 15}}>
       <Pressable onPress={() => setFamilySize(item.value)}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <RadioButton
             status={familySize === item.value ? 'checked' : 'unchecked'}
             onPress={() => setFamilySize(item.value)}
             color={colors.MANGO_COLOR}
+            checked={familySize === item.value}
           />
-          <Text>{item.label}</Text>
+          <Text style={styles.radioLabel}>{item.label}</Text>
         </View>
       </Pressable>
     </View>
   );
 
-  const Gender = ({item}) => (
-    <View>
+  const Gender = ({item, index}) => (
+    <View style={{marginBottom: index === GENDERS.length - 1 ? 0 : 15}}>
       <Pressable onPress={() => setUserGender(item.value)}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <RadioButton
-            // status={userGender === item.value ? 'checked' : 'unchecked'}
             onPress={() => setUserGender(item.value)}
             checked={userGender === item.value}
-            // color={colors.MANGO_COLOR}
           />
-          <Text>{item.label}</Text>
+          <Text style={styles.radioLabel}>{item.label}</Text>
         </View>
       </Pressable>
     </View>
@@ -828,7 +827,7 @@ const EditProfile = ({route}) => {
 
         <BottomSheet
           ref={datePickerRef}
-          height={370}
+          height={Platform.OS === 'android' ? 370 : 430}
           closeOnDragDown={true}
           customStyles={{
             container: {
@@ -922,14 +921,14 @@ const EditProfile = ({route}) => {
             <View style={{marginTop: '4%'}}>
               {commonSheetIdentifier === 'gender'
                 ? GENDERS.map((item, index) => (
-                    <Gender key={index} item={item} />
+                    <Gender key={index} item={item} index={index} />
                   ))
                 : commonSheetIdentifier === 'marital_status'
                 ? MARITAL_STATUS.map((item, index) => (
-                    <MaritalStatus key={index} item={item} />
+                    <MaritalStatus key={index} item={item} index={index} />
                   ))
                 : FAMILY_SIZE.map((item, index) => (
-                    <FamilySize key={index} item={item} />
+                    <FamilySize key={index} item={item} index={index} />
                   ))}
             </View>
             <View
@@ -989,7 +988,7 @@ const EditProfile = ({route}) => {
             </View>
             <View style={{marginTop: '4%'}}>
               {MARITAL_STATUS.map((item, index) => (
-                <MaritalStatus key={index} item={item} />
+                <MaritalStatus key={index} item={item} index={index} />
               ))}
             </View>
             <View
