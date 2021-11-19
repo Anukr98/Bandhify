@@ -13,6 +13,7 @@ import ColorsText from '../../../constants/ColorsText'
 import Loader from '../../Components/Loader/Loader'
 import BackgroundTimer from 'react-native-background-timer'
 import { useStateValue } from '../../../Utils/StateProvider'
+import { AppConfig, ENVS } from '../../../constants/config'
 
 const OTPValidateProfile = ({ route }) => {
 
@@ -58,7 +59,7 @@ const OTPValidateProfile = ({ route }) => {
             },
             body : JSON.stringify({
                 phone,
-                'otp' : code,
+                'otp' : AppConfig === ENVS.PROD ? code : "1234",
                 'device' : 'app',
                 "device_token": firebaseFCMToken
             })

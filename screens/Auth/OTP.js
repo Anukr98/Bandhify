@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import colors from '../../constants/colors';
 import BackgroundTimer from 'react-native-background-timer';
 import {useStateValue} from '../../Utils/StateProvider';
+import { AppConfig, ENVS } from '../../constants/config'
 
 const OTP = ({route}) => {
   const {phoneNumber} = route.params;
@@ -55,7 +56,7 @@ const OTP = ({route}) => {
     setIsError(false);
     var formdata = new FormData();
     formdata.append('phone', phoneNumber);
-    formdata.append('otp', value);
+    formdata.append('otp', AppConfig === ENVS.PROD ? value : "1234");
     formdata.append('device', 'app');
     formdata.append('device_token', firebaseFCMToken);
 
