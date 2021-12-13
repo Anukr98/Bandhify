@@ -1,6 +1,6 @@
+#import <React/RCTLinkingManager.h>
 #import <Firebase.h>
 #import <GoogleMaps/GoogleMaps.h>
-#import <React/RCTLinkingManager.h>
 
 #import "AppDelegate.h"
 

@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,34 +9,35 @@ import {
   Pressable,
   TouchableOpacity,
   Image,
+  Platform,
 } from 'react-native';
 import colors from '../../../constants/colors';
 import ColorsText from '../../../constants/ColorsText';
 import styles from './styles';
 import Application from '../../../Utils/db/Application';
-import {postMethod} from '../../../Utils/CommonFunctions';
+import { postMethod } from '../../../Utils/CommonFunctions';
 import urls from '../../../constants/urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {showMessage} from 'react-native-flash-message';
-import {Icon} from 'native-base';
-import {TouchableRipple} from 'react-native-paper';
+import { showMessage } from 'react-native-flash-message';
+import { Icon } from 'native-base';
+import { TouchableRipple } from 'react-native-paper';
 import GIFLoading from '../../Components/GIFLoading/GIFLoading';
 import moment from 'moment';
 import Loader from '../../Components/Loader/Loader';
 import Tooltip from 'react-native-walkthrough-tooltip';
-import {strings} from '../../../constants/strings';
-import {useStateValue} from '../../../Utils/StateProvider';
+import { strings } from '../../../constants/strings';
+import { useStateValue } from '../../../Utils/StateProvider';
 import Paytm from 'paytm_allinone_react-native';
 
 const SUBSCRIPTION_SLOTS = [
-  {value: 1, label: '1 day'},
-  {value: 7, label: '1 week'},
-  {value: 15, label: 'Fortnight'},
-  {value: 30, label: '1 month'},
+  { value: 1, label: '1 day' },
+  { value: 7, label: '1 week' },
+  { value: 15, label: 'Fortnight' },
+  { value: 30, label: '1 month' },
 ];
 
-const SlotSelection = ({route}) => {
-  const {item} = route.params;
+const SlotSelection = ({ route }) => {
+  const { item } = route.params;
   const {
     address_line_1,
     address_line_2,
@@ -46,8 +47,8 @@ const SlotSelection = ({route}) => {
     state,
     pincode,
   } = item;
-  const {id} = item;
-  const [{payable, deliveryFee, discount, cutOffValue}, dispatch] =
+  const { id } = item;
+  const [{ payable, deliveryFee, discount, cutOffValue }, dispatch] =
     useStateValue();
 
   const [slots, setSlots] = useState([]);
@@ -106,7 +107,7 @@ const SlotSelection = ({route}) => {
             setIsLoading(false);
             showMessage({
               icon: 'danger',
-              style: {backgroundColor: colors.BLACK},
+              style: { backgroundColor: colors.BLACK },
               message: 'Problem getting slots',
               floating: true,
               duration: 1200,
@@ -126,11 +127,11 @@ const SlotSelection = ({route}) => {
   }, []);
 
   const handleBackButtonClick = () => {
-    navigation.replace('Checkout', {focus: item.address_line_1});
+    navigation.replace('Checkout', { focus: item.address_line_1 });
     return true;
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const selectSlot = item => {
       if (item.slot_disabled)
         showMessage({
@@ -138,7 +139,7 @@ const SlotSelection = ({route}) => {
           floating: true,
           duration: 1200,
           icon: 'warning',
-          style: {backgroundColor: colors.BLACK},
+          style: { backgroundColor: colors.BLACK },
         });
       else {
         if (selectedSlot.id !== 'abcd1111') {
@@ -238,7 +239,7 @@ const SlotSelection = ({route}) => {
           borderBottomWidth: 1.5,
         }}>
         <View style={styles.details}>
-          <View style={{flex: 0.2}}>
+          <View style={{ flex: 0.2 }}>
             <Text
               style={{
                 color: colors.ROYAL_BLUE,
@@ -248,9 +249,9 @@ const SlotSelection = ({route}) => {
               Deliver To
             </Text>
           </View>
-          <View style={{flex: 0.8, paddingLeft: '4%'}}>
+          <View style={{ flex: 0.8, paddingLeft: '4%' }}>
             <Text
-              style={{fontFamily: ColorsText.Medium.fontFamily, fontSize: 16}}>
+              style={{ fontFamily: ColorsText.Medium.fontFamily, fontSize: 16 }}>
               {item.name}
             </Text>
             <Text
@@ -267,7 +268,7 @@ const SlotSelection = ({route}) => {
         </View>
       </View>
 
-      <View style={{marginVertical: '4%'}}>
+      <View style={{ marginVertical: '4%' }}>
         <Text style={styles.titleText}>Please choose a delivery slot:</Text>
       </View>
     </>
@@ -276,22 +277,22 @@ const SlotSelection = ({route}) => {
   const FooterComponent = () => (
     <View style={styles.paymentModeContainer}>
       <View style={styles.innerPaymentModeContainer}>
-        <View style={{display: showSubscriptionMenu ? 'flex' : 'none'}}>
+        <View style={{ display: showSubscriptionMenu ? 'flex' : 'none' }}>
           <View style={styles.subscriptionContainer}>
             <Text style={styles.titleText}>
               Please select your preferred subscription
             </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles.titleText}>duration:</Text>
               <View>
                 <Tooltip
                   isVisible={showTooltip}
                   content={
-                    <View style={{paddingTop: '4%', paddingHorizontal: '3%'}}>
+                    <View style={{ paddingTop: '4%', paddingHorizontal: '3%' }}>
                       <Text style={styles.tootltipTitle}>
                         Why am I seeing this?
                       </Text>
-                      <View style={{marginTop: '2%', paddingBottom: '2%'}}>
+                      <View style={{ marginTop: '2%', paddingBottom: '2%' }}>
                         <Text style={styles.tooltipText}>
                           {strings.SUBSCRIBABLE_ORDER}
                         </Text>
@@ -352,7 +353,7 @@ const SlotSelection = ({route}) => {
     if (selectedSlot.id === 'abcd1111')
       showMessage({
         icon: 'info',
-        style: {backgroundColor: colors.BLACK},
+        style: { backgroundColor: colors.BLACK },
         message: 'Please select a delivery slot',
         floating: true,
       });
@@ -378,10 +379,11 @@ const SlotSelection = ({route}) => {
         }),
       };
       postMethod(urls.GENERATE_PAYMENT_TOKEN, object, (err, result) => {
-        console.log(result);
         if (err) console.log(err);
         else if (result.status && result.code === 200) {
-          const {orderId, mid, tranxToken, callbackUrl, isStaging} = result;
+          const { orderId, mid, tranxToken, callbackUrl, isStaging } = result;
+          if(Platform.OS === 'ios')
+            setOrderCreating(false)
           Paytm.startTransaction(
             orderId,
             mid,
@@ -392,9 +394,7 @@ const SlotSelection = ({route}) => {
             false,
           )
             .then(res => {
-              console.log(res);
-              const {ORDERID, STATUS, RESPMSG, TXNID} = res;
-              console.log(res);
+              const { ORDERID, STATUS, RESPMSG, TXNID } = res;
               if (STATUS === strings.PAYMENT_STATUS.SUCCESS)
                 createOrder(ORDERID, RESPMSG, TXNID);
               if (STATUS === strings.PAYMENT_STATUS.FAILURE) {
@@ -403,7 +403,7 @@ const SlotSelection = ({route}) => {
                   icon: 'info',
                   floating: true,
                   message: RESPMSG,
-                  style: {backgroundColor: colors.BLACK},
+                  style: { backgroundColor: colors.BLACK },
                   duration: 5000,
                 });
               }
@@ -413,7 +413,7 @@ const SlotSelection = ({route}) => {
                   icon: 'info',
                   floating: true,
                   message: RESPMSG,
-                  style: {backgroundColor: colors.BLACK},
+                  style: { backgroundColor: colors.BLACK },
                   duration: 5000,
                 });
               }
@@ -426,16 +426,16 @@ const SlotSelection = ({route}) => {
               showMessage({
                 floating: true,
                 icon: 'info',
-                style: {backgroundColor: colors.BLACK},
+                style: { backgroundColor: colors.BLACK },
                 message: strings.TRANSACTION_FAILED,
               });
-            });
+            }).finally(() => {});
         } else {
           setOrderCreating(false);
           showMessage({
             message: strings.PAYMENT_INITIATION_FAIL,
             icon: 'info',
-            style: {backgroundColor: colors.BLACK},
+            style: { backgroundColor: colors.BLACK },
             floating: true,
           });
         }
@@ -458,7 +458,7 @@ const SlotSelection = ({route}) => {
     let couponDetails = await Application.executeQuery(`SELECT * FROM COUPON`);
 
     for (let i = 0; i < cartItems.length; i++) {
-      const {product_id, quantity, product_price, discount, commission} =
+      const { product_id, quantity, product_price, discount, commission } =
         cartItems.item(i);
       order_total_amount = order_total_amount + quantity * product_price;
       order_commission = order_commission + quantity * commission;
@@ -471,13 +471,11 @@ const SlotSelection = ({route}) => {
         product_commission: commission,
       });
     }
-    console.log(cart);
 
     if (couponDetails.length > 0) {
       coupon_code = couponDetails.item(0).coupon_code;
       coupon_id = couponDetails.item(0).coupon_id;
     }
-    // console.log("order comm",parseFloat(order_commission).toFixed(2) - +discount)
     let object = {
       method: 'POST',
       headers: {
@@ -487,6 +485,7 @@ const SlotSelection = ({route}) => {
       },
       body: {
         order_id: orderid,
+        cart,
         shop_id: cartItems.item(0).shop_id,
         address_id: item.id,
         slot: `${selectedSlot.slot_start} - ${selectedSlot.slot_end}`,
@@ -501,13 +500,12 @@ const SlotSelection = ({route}) => {
         order_commission:
           subscriptionSlot > 1
             ? (parseFloat(order_commission).toFixed(2) - +discount) *
-              subscriptionSlot
+            subscriptionSlot
             : parseFloat(order_commission).toFixed(2) - +discount,
         order_net_amount:
           parseFloat(payingAmount) > cutOffValue
             ? parseFloat(payingAmount).toFixed(2)
             : parseFloat(+payingAmount + +deliveryFee).toFixed(2),
-        cart,
         delivery_charge: payingAmount > cutOffValue ? 0 : deliveryFee,
         transaction_message,
         transaction_token,
@@ -529,20 +527,20 @@ const SlotSelection = ({route}) => {
         await AsyncStorage.setItem(
           'location',
           item.address_line_1 +
-            ',' +
-            item.address_line_2 +
-            ',' +
-            item.address_line_3 +
-            ',' +
-            item.locality.locality +
-            ',' +
-            item.city.city +
-            ',' +
-            item.state +
-            ',' +
-            item.pincode +
-            ',' +
-            item.country,
+          ',' +
+          item.address_line_2 +
+          ',' +
+          item.address_line_3 +
+          ',' +
+          item.locality.locality +
+          ',' +
+          item.city.city +
+          ',' +
+          item.state +
+          ',' +
+          item.pincode +
+          ',' +
+          item.country,
         );
         showMessage({
           icon: 'success',
@@ -566,30 +564,30 @@ const SlotSelection = ({route}) => {
   if (isLoading) return <GIFLoading />;
   else
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <View style={styles.innerContainer}>
-          <View style={{paddingLeft: 12, paddingTop: 8}}>
+          <View style={{ paddingLeft: 12, paddingTop: 8 }}>
             <TouchableWithoutFeedback
               onPress={() =>
-                navigation.replace('Checkout', {focus: item.address_line_1})
+                navigation.replace('Checkout', { focus: item.address_line_1 })
               }>
               <Icon
                 active
                 type="Ionicons"
                 name="arrow-back"
-                style={{color: colors.DUSKY_BLACK_TEXT}}
+                style={{ color: colors.DUSKY_BLACK_TEXT }}
               />
             </TouchableWithoutFeedback>
           </View>
           <View style={styles.logoArea}>
             <View style={styles.logoInnerContainer}>
               <TouchableOpacity
-                style={{width: '70%'}}
+                style={{ width: '70%' }}
                 activeOpacity={0.6}
                 onPress={() => navigation.replace('Home')}>
                 <Image
                   source={require('../../../assets/Images/logo2.png')}
-                  style={{width: '60%', height: 80}}
+                  style={{ width: '60%', height: 80 }}
                   resizeMode="cover"
                 />
               </TouchableOpacity>
@@ -620,7 +618,7 @@ const SlotSelection = ({route}) => {
                 alignItems: 'center',
               }}>
               <Text
-                style={{fontFamily: ColorsText.light.fontFamily, fontSize: 14}}>
+                style={{ fontFamily: ColorsText.light.fontFamily, fontSize: 14 }}>
                 Net payable Amount
               </Text>
               <Text
@@ -635,7 +633,7 @@ const SlotSelection = ({route}) => {
                   : parseFloat(+payingAmount + +deliveryFee).toFixed(2)}
               </Text>
             </View>
-            <View style={{flex: 0.5}}>
+            <View style={{ flex: 0.5 }}>
               <TouchableRipple
                 style={styles.proceedButton}
                 onPress={createPaymentToken}
