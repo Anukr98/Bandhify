@@ -110,16 +110,16 @@ const Checkout = props => {
       longitude: address.longitude,
     };
     const d = distanceBetweenCoordinates(shopAddress, selectedAddress);
-    // if (Math.round(d).toFixed(2) > delivery_range) {
-    //   showMessage({
-    //     icon: 'info',
-    //     style: {backgroundColor: colors.BLACK},
-    //     message: strings.DELIVERY_LOCATION_OUT_OF_RANGE,
-    //     floating: true,
-    //     duration: 4000,
-    //   });
-    //   return;
-    // }
+    if (Math.round(d).toFixed(2) > delivery_range) {
+      showMessage({
+        icon: 'info',
+        style: {backgroundColor: colors.BLACK},
+        message: strings.DELIVERY_LOCATION_OUT_OF_RANGE,
+        floating: true,
+        duration: 4000,
+      });
+      return;
+    }
     props.navigation.replace('SlotSelection', {item: address});
   };
 
