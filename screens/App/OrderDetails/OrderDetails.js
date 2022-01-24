@@ -369,7 +369,20 @@ const OrderDetails = ({ route }) => {
             dashColor = {colors.ROYAL_BLUE}
             dashGap = {3}
         />
-        <View><TouchableOpacity onPress = {() => setIsSubscriptionModalVisible(true)}><Text style = {styles.modalDescriptionText}>What is this?</Text></TouchableOpacity></View>
+        <View>
+            <TouchableOpacity
+                onPress = {() => setIsSubscriptionModalVisible(true)}
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+            >
+                <Text style = {styles.modalDescriptionText}>What is this?</Text>
+                <Icon
+                    active
+                    type='MaterialCommunityIcons'
+                    name='information-outline'
+                    style={{ color: colors.SUCCESS_GREEN, fontSize: 20, marginLeft: 2 }}
+                />
+            </TouchableOpacity>
+        </View>
         <MiscDetail descriptionText = {'Number of subscription days'} detailText = {number_of_days} />
         <MiscDetail descriptionText = {'Grand Total'} detailText = {`₹${subtotal * number_of_days}`} />
         <MiscDetail descriptionText = {'Subscription valid till'} detailText = {moment(subscriptionValidTill).format('DD MMM YY')} />

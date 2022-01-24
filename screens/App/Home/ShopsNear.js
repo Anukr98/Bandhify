@@ -143,6 +143,7 @@ const ShopsNear = () => {
         `${urls.GET_SHOPS}?latitude=${lt}&longitude=${long}`,
         object,
         (err, result) => {
+          console.log(result);
           if (err) console.log(err);
           else if (result.status && result.code === 200) {
             setIsLoading(false);

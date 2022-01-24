@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 4,
         paddingHorizontal: "3%",
-        color: colors.DUSKY_BLACK_TEXT
+        color: colors.DUSKY_BLACK_TEXT,
+        minHeight: 60
     },
 
     submitButton: {

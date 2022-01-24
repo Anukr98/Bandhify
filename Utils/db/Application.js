@@ -1,4 +1,3 @@
-import { PickerIOSItem } from 'react-native'
 import Adapter from './adapter'
 
 class Application {

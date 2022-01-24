@@ -428,7 +428,7 @@ export default class DairyDetail extends React.Component {
                   justifyContent: 'space-between',
                 }}>
                 <View style={{width: ' 70%'}}>
-                  <Text numberOfLines={2} style={styles.productName}>
+                  <Text  style={styles.productName}>
                     {product_name}
                   </Text>
                 </View>
@@ -922,7 +922,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     overflow: 'hidden',
     backgroundColor: colors.WHITE,
-    elevation: 2,
+    elevation: 5,
     shadowOffset: {
       height: 10,
       width: 10,
@@ -955,9 +955,9 @@ const styles = StyleSheet.create({
   },
 
   productName: {
-    fontWeight: '600',
+    fontWeight: '500',
     fontFamily: ColorsText.Medium.fontFamily,
-    fontSize: 16,
+    fontSize: 14,
   },
 
   productQuantity: {

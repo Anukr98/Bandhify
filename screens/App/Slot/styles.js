@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     proceedButton : {
         width : '95%',
         alignItems : 'center',
-        height : height * 0.05,
+        height : 43,
         justifyContent : 'center',
         borderRadius : 3,
         backgroundColor : colors.BUTTON_BACKGROUND_COLOR

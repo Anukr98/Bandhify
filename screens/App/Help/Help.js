@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { showMessage } from 'react-native-flash-message'
 import { postMethod } from '../../../Utils/CommonFunctions'
 import urls from '../../../constants/urls'
+import RadioButton from '../../Components/RadioButton'
 
 const Help = ({ route, navigation }) => {
     const { orderDetails } = route.params
@@ -94,28 +95,40 @@ const Help = ({ route, navigation }) => {
                         <View style = {{ marginVertical: "2%" }}><Text style = {[styles.helpSubtext]}>{strings.HELP_CONTACT}{` ${phone}`}</Text></View>
                         <View>
                             <View style = {[styles.checkboxRow, { marginBottom: "3%" }]}>
-                                <Checkbox
+                                {/* <Checkbox
                                     status = {issue === "missing" ? "checked" : "unchecked"}
                                     onPress = {() => setIssue("missing")}
                                     color = {colors.MANGO_COLOR}
+                                /> */}
+                                <RadioButton 
+                                checked={issue==='missing'}
+                                    onPress = {() => setIssue("missing")}
                                 />
-                                <Pressable onPress = {() => setIssue("missing")} style = {{ width: "100%", paddingVertical: "2%" }}><Text>Missing items</Text></Pressable>
+                                <Pressable onPress = {() => setIssue("missing")} style = {{ width: "100%", paddingVertical: "2%",paddingHorizontal:"2%" }}><Text>Missing items</Text></Pressable>
                             </View>
                             <View style = {[styles.checkboxRow, { marginBottom: "3%" }]}>
-                                <Checkbox
+                                {/* <Checkbox
                                     status = {issue === "refund" ? "checked" : "unchecked"}
                                     onPress = {() => setIssue("refund")}
                                     color = {colors.MANGO_COLOR}
+                                /> */}
+                                <RadioButton 
+                                    checked={issue === 'refund'}
+                                    onPress = {() => setIssue("refund")}
                                 />
-                                <Pressable onPress = {() => setIssue("refund")} style = {{ width: "100%", paddingVertical: "2%" }}><Text>Refund related issue</Text></Pressable>
+                                <Pressable  onPress = {() => setIssue("refund")} style = {{ width: "100%", paddingVertical: "2%",paddingHorizontal:"2%" }}><Text>Refund related issue</Text></Pressable>
                             </View>
                             <View style = {styles.checkboxRow}>
-                                <Checkbox
+                                {/* <Checkbox
                                     status = {issue === "incorrectitems" ? "checked" : "unchecked"}
                                     onPress = {() => setIssue("incorrectitems")}
                                     color = {colors.MANGO_COLOR}
+                                /> */}
+                                <RadioButton 
+                                checked={issue==='incorrectitems'}
+                                    onPress = {() => setIssue("incorrectitems")}
                                 />
-                                <Pressable hitSlop = {30} onPress = {() => setIssue("incorrectitems")} style = {{ width: "100%", paddingVertical: "2%" }}><Text>Incorrect items received</Text></Pressable>
+                                <Pressable onPress = {() => setIssue("incorrectitems")} style = {{ width: "100%", paddingVertical: "2%",paddingHorizontal:"2%" }}><Text>Incorrect items received</Text></Pressable>
                             </View>
                             <View style = {{ marginTop: "5%", position: "relative" }}>
                                 <TextInput
