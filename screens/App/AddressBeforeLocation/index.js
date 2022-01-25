@@ -69,19 +69,35 @@ const SavedAddresses = ({ route }) => {
     const changeAddress = async address => {
         const { latitude, longitude } = address
         setIsLoading(true)
-        let str = address.address_line_2 + ', ' + address.address_line_3
+        let str = address.address_line_2 + ', ' + address.address_line_3 + address?.locality?.locality
         Geocode.init(keys.GOOGLE_MAPS_API)
-        Geocode.from(str).then(async res => {
+        Geocode.from(str)
+        .then(async res => {
             await AsyncStorage.setItem('location',res.results[0].formatted_address)
             await AsyncStorage.setItem('addressLatitude', latitude.toString())
             await AsyncStorage.setItem('addressLongitude', longitude.toString())
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 1000)
+            setTimeout(() => {
+                navigation.navigate('Home')
+            }, 1200)
         })
-        setTimeout(() => {
+        .catch(err => {
             setIsLoading(false)
-        }, 1000)
-        setTimeout(() => {
-            navigation.navigate('Home')
-        }, 1200)
+            if(err?.code === 4) {
+                setIsLoading(false)
+                showMessage({
+                    type: 'info',
+                    message: 'We could not locate a precise location for this address. Please try editing the same',
+                    duration: 2500,
+                    position: 'top',
+                    style: {
+                        backgroundColor: colors.BLACK
+                    }
+                })
+            }
+        })
     }
 
     const renderItem = ({ item }) => (
