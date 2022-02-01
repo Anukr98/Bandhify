@@ -56,12 +56,10 @@
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Play using while you are hiking</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) location always and when in use</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>$(PRODUCT_NAME) location always in use</string>
+	<string>This will enable the nearby location functionality to get nearest shops. To start using the app, choose “Allow” so the app can read your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) location when in use</string>
+	<string>This will enable the nearby location functionality to get nearest shops. To start using the app, choose “Allow” so the app can find your location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) photo library use</string>
 	<key>UIAppFonts</key>

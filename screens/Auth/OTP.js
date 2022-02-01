@@ -84,6 +84,7 @@ const OTP = ({route}) => {
           else {
             await AsyncStorage.setItem('token', result.accessToken);
             await AsyncStorage.setItem('user_id', result.user_id.toString());
+            await AsyncStorage.setItem('is_first_login', 'true')
             navigation.navigate('Home');
           }
         } else
@@ -118,10 +119,11 @@ const OTP = ({route}) => {
 
       fetch(urls.signUp, requestOptions)
         .then(response => response.json())
-        .then(result => {
+        .then(async result => {
           if (result.status) {
-            AsyncStorage.setItem('token', result.accessToken);
-            AsyncStorage.setItem('user_id', result.user.id.toString());
+            await AsyncStorage.setItem('token', result.accessToken);
+            await AsyncStorage.setItem('user_id', result.user.id.toString());
+            await AsyncStorage.setItem('is_first_login', 'true')
             showMessage({
               message: result?.message,
               type: 'success',

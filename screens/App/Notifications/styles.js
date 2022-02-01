@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import colors from '../../../constants/colors'
 import ColorsText from '../../../constants/ColorsText'
-import { width } from '../../../constants/dimensions'
+import { height, width } from '../../../constants/dimensions'
 
 const styles = StyleSheet.create({
 
@@ -58,18 +58,23 @@ const styles = StyleSheet.create({
     },
 
     modalContainer: {
-        backgroundColor: 'white',
-        width: width*.35,
-        height: 100,
-        borderBottomLeftRadius: 5,
-        borderTopLeftRadius: 2
+        backgroundColor: colors.WHITE,
+        padding: 10,
+        paddingVertical: Platform.OS === 'android' ? 15 : 18
     },
 
-    modalInnerContainer: {
-        width: '90%',
-        alignSelf: 'center',
-        justifyContent: 'space-evenly',
-        height: '100%',
+    noNotifications: {
+        alignItems: 'center',
+        height: height*.7,
+        justifyContent: 'center',
+        width: width*.7,
+        alignSelf: 'center'
+    },
+
+    noNotificationsText: {
+        fontFamily: ColorsText.Medium.fontFamily,
+        fontSize: 17,
+        textAlign: 'center'
     }
 })
 

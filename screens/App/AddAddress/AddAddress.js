@@ -198,7 +198,7 @@ const AddAddress = ({route}) => {
     );
   };
 
-  const localityRenderItem = ({item}) => {
+  const localityRenderItem = ({item, index}) => {
     const changeLocality = () => {
       setLocality({
         name: item.locality,
@@ -208,10 +208,8 @@ const AddAddress = ({route}) => {
     };
 
     return (
-      <View style={styles.cityListItem}>
-        <TouchableWithoutFeedback
-          onPress={changeLocality}
-          style={{backgroundColor: 'yellow'}}>
+      <View style={[styles.cityListItem]}>
+        <TouchableWithoutFeedback onPress={changeLocality}>
           <Text>{item.locality}</Text>
         </TouchableWithoutFeedback>
       </View>
@@ -287,7 +285,6 @@ const AddAddress = ({route}) => {
   };
 
   const addAddress = async () => {
-    console.log(latitude, longitude);
     let id = await AsyncStorage.getItem('user_id');
     if (validateErrors()) {
       setIsLoading(true);
@@ -486,6 +483,7 @@ const AddAddress = ({route}) => {
                   data={localities}
                   renderItem={localityRenderItem}
                   showsVerticalScrollIndicator={false}
+                  style={{backgroundColor: colors.WHITE}}
                 />
               </View>
             </View>

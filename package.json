@@ -51,6 +51,7 @@
     "react-native-paper": "^4.7.2",
     "react-native-permissions": "^3.0.1",
     "react-native-pixel-perfect": "^1.0.2",
+    "react-native-popover-view": "^4.1.0",
     "react-native-ratings": "^8.0.4",
     "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^2.0.0",

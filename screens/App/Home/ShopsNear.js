@@ -31,6 +31,7 @@ import Geocode from 'react-native-geocoding';
 import keys from '../../../constants/keys';
 import {strings} from '../../../constants/strings';
 import Slider from 'react-native-app-intro-slider';
+import { check, PERMISSIONS } from 'react-native-permissions';
 
 const ShopsNear = () => {
   LogBox.ignoreAllLogs();
@@ -76,6 +77,7 @@ const ShopsNear = () => {
     let address = await AsyncStorage.getItem('location');
     let lt = 0,
       long = 0;
+
     if (address) {
       let addressLatitude = await AsyncStorage.getItem('addressLatitude');
       let addressLongitude = await AsyncStorage.getItem('addressLongitude');
@@ -100,7 +102,8 @@ const ShopsNear = () => {
       long = position.coords.longitude;
       setLatitude(lt);
       setLongitude(long);
-      Geocode.from(lt, long).then(async res => {
+      Geocode.from(lt, long)
+      .then(async res => {
         let tempAddress = res.results[0].formatted_address,
           secondaryAddress = '';
         await AsyncStorage.setItem('location', tempAddress);
@@ -123,7 +126,17 @@ const ShopsNear = () => {
         setLatitude(currentLatitude);
         setLongitude(currentLongitude);
         getShops(currentLatitude, currentLongitude);
-      });
+      })
+      .catch(err => {
+        if(err.code === 4) {
+          showMessage({
+            type: 'info',
+            message: 'We could not locate a precise location for this address. Please try editing the same',
+            duration: 2000,
+          })
+          setIsLoading(false)
+        }
+      })
     }
   };
 
@@ -186,6 +199,8 @@ const ShopsNear = () => {
           maximumAge: 1000,
         });
       }
+      else
+      confirmLocationAccess()
     }
   };
 
@@ -382,6 +397,25 @@ const ShopsNear = () => {
       }
     });
   };
+
+  const confirmLocationAccess = async () => {
+    const status = await AsyncStorage.getItem('is_first_login')
+    if(status === 'true')
+      showMessage({
+        type: 'info',
+        message: 'The results you\'re seeing can be inconsistent because of lack of location permissions',
+        duration: 4000,
+        style: {
+          backgroundColor: colors.BLACK
+        }
+      })
+    geoSuccess({
+      coords: {
+        latitude: 5.3,
+        longitude: 2.5
+      }
+    })
+  }
 
   useEffect(() => {
     const backButtonAction = BackHandler.addEventListener(

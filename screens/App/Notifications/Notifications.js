@@ -9,7 +9,7 @@ import {
   BackHandler,
   FlatList,
   TouchableWithoutFeedback,
-  SafeAreaView,
+  Platform,
 } from 'react-native';
 import colors from '../../../constants/colors';
 import styles from './styles';
@@ -18,16 +18,16 @@ import {postMethod} from '../../../Utils/CommonFunctions';
 import urls from '../../../constants/urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showMessage} from 'react-native-flash-message';
-import Modal from 'react-native-modal';
 import GIFLoading from '../../Components/GIFLoading/GIFLoading';
+import Popover from 'react-native-popover-view';
 
 const Notifications = ({route}) => {
   const {notifications} = route.params;
   const navigation = useNavigation();
 
   const [allNotifications, setAllNotifications] = useState(notifications);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 
   const handleBackButtonClick = () => {
     navigation.navigate('HomeScreen');
@@ -76,7 +76,7 @@ const Notifications = ({route}) => {
   };
 
   const markNotificationsAsRead = async () => {
-    setIsModalVisible(false);
+    setIsPopoverVisible(false);
     setIsLoading(true);
     let token = await AsyncStorage.getItem('token');
     let object = {
@@ -125,6 +125,12 @@ const Notifications = ({route}) => {
     });
   };
 
+  const NoNotifications = () => (
+    <View style={styles.noNotifications}>
+      <Text style={styles.noNotificationsText}>{strings.NO_NOTIFICATIONS}</Text>
+    </View>
+  );
+
   if (isLoading) return <GIFLoading />;
 
   return (
@@ -152,43 +158,42 @@ const Notifications = ({route}) => {
               <Text style={styles.headerText}>Notifications</Text>
             </View>
             <View>
-              <Pressable onPress={() => setIsModalVisible(true)}>
-                <Icon name="ios-ellipsis-vertical" style={{fontSize: 20}} />
-              </Pressable>
-              <Modal
-                isVisible={isModalVisible}
-                style={styles.modal}
-                onBackdropPress={() => setIsModalVisible(false)}
-                animationIn="fadeInRight"
-                animationOut="fadeOutRight"
-                backdropOpacity={0.3}>
-                <SafeAreaView>
-                  <View style={styles.modalContainer}>
-                    <View style={styles.modalInnerContainer}>
-                      <View>
-                        <TouchableWithoutFeedback
-                          onPress={markNotificationsAsRead}>
-                          <Text style={styles.popoverText}>
-                            {strings.MARK_NOTIFICATIONS_AS_READ}
-                          </Text>
-                        </TouchableWithoutFeedback>
-                      </View>
-                      <View>
-                        <TouchableWithoutFeedback
-                          onPress={() => setIsModalVisible(false)}>
-                          <Text style={styles.popoverText}>Dismiss</Text>
-                        </TouchableWithoutFeedback>
-                      </View>
-                    </View>
+              <Popover
+                isVisible={isPopoverVisible}
+                onRequestClose={() => setIsPopoverVisible(false)}
+                from={
+                  <Pressable onPress={() => setIsPopoverVisible(true)}>
+                    <Icon name="ios-ellipsis-vertical" style={{fontSize: 20}} />
+                    {/* <Text>Press here to open popover!</Text> */}
+                  </Pressable>
+                }>
+                <View style={styles.modalContainer}>
+                  <View
+                    style={{marginBottom: Platform.OS === 'android' ? 10 : 13}}>
+                    <TouchableWithoutFeedback onPress={markNotificationsAsRead}>
+                      <Text style={styles.popoverText}>
+                        {strings.MARK_NOTIFICATIONS_AS_READ}
+                      </Text>
+                    </TouchableWithoutFeedback>
                   </View>
-                </SafeAreaView>
-              </Modal>
+                  <View>
+                    <TouchableWithoutFeedback
+                      onPress={() => setIsPopoverVisible(false)}>
+                      <Text style={styles.popoverText}>Dismiss</Text>
+                    </TouchableWithoutFeedback>
+                  </View>
+                </View>
+              </Popover>
             </View>
           </View>
         </View>
       </View>
       <View style={{flex: 1}}>
-        <FlatList data={allNotifications} renderItem={renderItem} />
+        <FlatList
+          data={allNotifications}
+          renderItem={renderItem}
+          ListEmptyComponent={<NoNotifications />}
+        />
       </View>
     </View>
   );

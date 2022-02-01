@@ -31,13 +31,11 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    // backgroundColor : 'red',
     width: '100%',
     paddingLeft: '2%',
     borderColor: colors.GRAY_BORDER_COLOR,
     borderWidth: 1,
     borderRadius: 3,
-    // color : colors.GRAY_TEXT
     color: colors.BLACK,
     height: 40,
   },
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
     width: width * 0.7,
     backgroundColor: colors.WHITE,
     alignSelf: 'center',
-    // flex : .3
+    maxHeight: height*.4
   },
 
   closeContainer: {

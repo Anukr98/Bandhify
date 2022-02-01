@@ -76,6 +76,7 @@ const SavedAddresses = ({ route }) => {
             await AsyncStorage.setItem('location',res.results[0].formatted_address)
             await AsyncStorage.setItem('addressLatitude', latitude.toString())
             await AsyncStorage.setItem('addressLongitude', longitude.toString())
+            await AsyncStorage.setItem('is_first_login', 'false')
             setTimeout(() => {
                 setIsLoading(false)
             }, 1000)

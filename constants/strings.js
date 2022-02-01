@@ -37,6 +37,7 @@ export const strings = {
     HELP_TITLE: "Get help for your order #",
     HELP_CATEGORY: "Select a category that best defines your grievance",
     HELP_CONTACT: "All communications shall be communicated on",
+    NO_NOTIFICATIONS: "You seem to be all caught up over here!",
 
     PAYMENT_STATUS: {
         SUCCESS: "TXN_SUCCESS",

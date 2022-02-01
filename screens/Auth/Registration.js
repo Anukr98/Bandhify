@@ -57,20 +57,11 @@ const Registration = () => {
                 forceRequestLocation: true,
               });
             } else {
-              // BackHandler.exitApp()
               setPermissionDenied(true);
               setIsModalVisible(true);
               setTimeout(() => {
                 setIsLoading(false);
               }, 300);
-              // showMessage({
-              //     icon : 'warning',
-              //     floating : true,
-              //     duration : 1500,
-              //     style : { backgroundColor : 'black' },
-              //     message : 'Hold On!',
-              //     description : 'Please Allow Location'
-              // })
             }
           });
         } else {
@@ -97,8 +88,6 @@ const Registration = () => {
                 forceRequestLocation: true,
               });
             } else {
-              setPermissionDenied(true);
-              setIsModalVisible(true);
               setTimeout(() => {
                 setIsLoading(false);
               }, 300);
@@ -152,6 +141,7 @@ const Registration = () => {
       fetch(urls.sendOTP, requestOptions)
         .then(response => response.json())
         .then(result => {
+          console.log(result);
           if (result.status) {
             showMessage({
               type: 'success',

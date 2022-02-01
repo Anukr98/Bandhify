@@ -9,6 +9,7 @@ import {TouchableRipple} from 'react-native-paper';
 import ColorsText from '../../../constants/ColorsText';
 import {Icon} from 'native-base';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { showMessage } from 'react-native-flash-message';
 
 export default class VerifyLocation extends React.Component {
   constructor(props) {
@@ -44,7 +45,8 @@ export default class VerifyLocation extends React.Component {
         Geocoder.from(
           params?.item?.latitude ? params?.item?.latitude : latitude,
           params?.item?.longitude ? params?.item?.longitude : longitude,
-        ).then(res => {
+        )
+        .then(res => {
           const addressbits = res.results[0].formatted_address.split(',');
           let address = '';
           for (let i = 0; i < 5; i++) {
@@ -73,10 +75,20 @@ export default class VerifyLocation extends React.Component {
               ? `${params?.item?.address_line_1} ${params?.item?.address_line_2} ${params?.item?.address_line_3} ${params?.item?.city?.city}`
               : address,
           });
-        });
+        })
+        .catch(err => {
+          console.log(err);
+        })
       },
       error => {
-        alert(error);
+        if(error?.code === 1)
+          showMessage({
+            message: 'You have turned off location permissions for the app. Please enable them for accurate results!',
+            style: {
+              backgroundColor: colors.BLACK,
+            },
+            duration: 3000
+          })
       },
       {
         enableHighAccuracy: true,
