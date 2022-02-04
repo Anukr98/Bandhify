@@ -28,6 +28,7 @@ import Modal from 'react-native-modal';
 import {width} from '../../../constants/dimensions';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
 import DeviceInfo from 'react-native-device-info';
+import { AppConfig, ENVS } from '../../../constants/config';
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -494,7 +495,7 @@ const Profile = () => {
                 style={[
                   styles.buttonText,
                   {fontSize: 13, color: colors.GRAY_TEXT_NEW},
-                ]}>{`App version ${buildDetails.versionNumber} [${buildDetails.buildNumber}]`}</Text>
+                ]}>{`${AppConfig === ENVS.PROD ? 'PROD' : 'DEV'} ${buildDetails.versionNumber} [${buildDetails.buildNumber}]`}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
