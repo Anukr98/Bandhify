@@ -58,9 +58,9 @@
 	<string>Play using while you are hiking</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This will enable the nearby location functionality to get nearest shops. To start using the app, choose “Allow” so the app can read your location.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This will enable the nearby location functionality to get nearest shops. To start using the app, choose “Allow” so the app can find your location.</string>
 	<key>NSLocationUsageDescription</key>
+	<string>This will enable the nearby location functionality to get nearest shops. To start using the app, choose “Allow” so the app can find your location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This will enable the nearby location functionality to get nearest shops. To start using the app, choose “Allow” so the app can find your location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) photo library use</string>
